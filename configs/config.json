@@ -1,0 +1,4 @@
+{
+    "input": "./data/input.txt", 
+    "processors": ["replace_tags", "replace_urls"]
+}
