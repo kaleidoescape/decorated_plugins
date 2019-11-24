@@ -20,7 +20,7 @@ def register_plugin(name):
         return plugin
     return wrapper_register_plugin
 
-def collect_decorated(dir_name):
+def import_modules(dir_name):
     """Import all decorated objects inside a directory."""
     direc = os.path.join(WORKING_DIR, dir_name)
     for f in os.listdir(direc):
@@ -33,4 +33,4 @@ def collect_decorated(dir_name):
             file_name = f[:f.find('.py')]
             module = importlib.import_module(f'{dir_name}.{file_name}')
 
-collect_decorated("plugins")
+import_modules("plugins")
