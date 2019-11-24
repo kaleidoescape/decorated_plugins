@@ -1,8 +1,9 @@
 import os
 import json
+import argparse
 
-from constants import DEFAULT_CONFIG_DIR
 from decorators import PLUGINS
+from constants import DEFAULT_CONFIG_DIR
 
 class ConfigParseError(BaseException):
     """Raise for errors parsing the user's config file."""
@@ -52,13 +53,12 @@ def parse_config(config):
                   f" Expected one of: {list(PLUGINS.keys())}")
     return config
 
-def run():
+def run(config_file):
     """
-    Run the example scenario which will process sentences from the
-    example input `./data/input.txt` and create an example output: 
-    `./data/input.txt.processed`.
+    Parse a config file to get the input file path and the list
+    of processors. Apply processors to sentences in the input file
+    and save them to a new output file with the `.processed` extension.
     """
-    config_file = os.path.join(DEFAULT_CONFIG_DIR, 'config.json')
     with open(config_file, 'r', encoding='utf-8') as instream:
         config = json.load(instream)
         
@@ -69,6 +69,25 @@ def run():
     outfile = infile + '.processed'
     process_file(infile, outfile, processors)
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="a mini plugin architecture")
+    parser.add_argument("config", 
+        help="file path of json config file with 'input' and 'processors'")
+
+    args = parser.parse_args()
+    if not os.path.exists(args.config):
+        raise FileNotFoundError(f"config file not found: {args.config}")
+    
+    return args
+
+def example():
+    """
+    Run the example scenario which will process sentences from the
+    example input `./data/input.txt` and create an example output: 
+    `./data/input.txt.processed`.
+    """
+    config_file = os.path.join(DEFAULT_CONFIG_DIR, 'config.json')
+    run(config_file)
 
 if __name__ == '__main__':
-    run()
+    example()

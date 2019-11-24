@@ -1,2 +1,2 @@
 # decorated_plugins
-A demo implementing a mini-architecture for plugins, using decorators.
+A python3.7 demo implementing a mini-architecture for plugins, using decorators.
